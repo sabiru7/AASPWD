@@ -26,7 +26,7 @@
                     <td>${{ number_format($menu->price, 2) }}</td>
                     <td>
                         @if($menu->image)
-                            <img src="{{ asset('storage/' . $menu->image) }}" alt="{{ $menu->name }}" width="100">
+                            <img src="{{ asset('menus.create' . $menu->image) }}" alt="{{ $menu->name }}" width="100">
                         @endif
                     </td>
                     <td>

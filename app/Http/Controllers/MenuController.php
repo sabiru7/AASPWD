@@ -21,27 +21,21 @@ class MenuController extends Controller
 
     public function store(Request $request)
     {
+        // Validasi input dari pengguna
         $request->validate([
             'name' => 'required|string|max:255',
             'price' => 'required|numeric|min:0',
             'description' => 'nullable|string',
             'image' => 'nullable|image|max:2048',
         ]);
-        try {
-            \DB::connection()->getPdo();
-            echo "Koneksi ke database berhasil.";
-        } catch (\Exception $e) {
-            die("Koneksi ke database gagal: " . $e->getMessage());
-        }
-    
-        $menus = Menu::all();
-        return view('menus.index', compact('menus'));
 
+        // Membuat instance baru dari model Menu
         $menu = new Menu();
         $menu->name = $request->name;
         $menu->description = $request->description;
         $menu->price = $request->price;
 
+        // Menyimpan gambar jika ada
         if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('images', 'public');
             $menu->image = $imagePath;
@@ -64,6 +58,7 @@ class MenuController extends Controller
 
     public function update(Request $request, Menu $menu)
     {
+        // Validasi input dari pengguna
         $request->validate([
             'name' => 'required|string|max:255',
             'price' => 'required|numeric|min:0',
@@ -71,14 +66,18 @@ class MenuController extends Controller
             'image' => 'nullable|image|max:2048',
         ]);
 
+        // Memperbarui data menu
         $menu->name = $request->name;
         $menu->description = $request->description;
         $menu->price = $request->price;
 
+        // Mengganti gambar jika ada
         if ($request->hasFile('image')) {
+            // Menghapus gambar lama jika ada
             if ($menu->image) {
                 Storage::disk('public')->delete($menu->image);
             }
+            // Menyimpan gambar baru
             $imagePath = $request->file('image')->store('images', 'public');
             $menu->image = $imagePath;
         }
@@ -95,6 +94,6 @@ class MenuController extends Controller
         }
 
         $menu->delete();
-        return redirect()->route('menus.index')->with('success', 'Menu deleted successfully.');
+                return redirect()->route('menus.index')->with('success', 'Menu deleted successfully.');
     }
 }
