@@ -77,14 +77,14 @@ class MenuController extends Controller
             if ($menu->image) {
                 Storage::disk('public')->delete($menu->image);
             }
-            // Menyimpan gambar baru
+            
             $imagePath = $request->file('image')->store('images', 'public');
             $menu->image = $imagePath;
         }
 
         $menu->save();
 
-        return redirect()->route('menus.index')->with('success', 'Menu updated successfully.');
+        return redirect()->route(' menus.index')->with('success', 'Menu updated successfully.');
     }
 
     public function destroy(Menu $menu)
@@ -94,6 +94,6 @@ class MenuController extends Controller
         }
 
         $menu->delete();
-                return redirect()->route('menus.index')->with('success', 'Menu deleted successfully.');
+        return redirect()->route('menus.index')->with('success', 'Menu deleted successfully.');
     }
 }

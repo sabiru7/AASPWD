@@ -4,15 +4,16 @@
 
 @section('content')
 <div class="container d-flex justify-content-center align-items-center" style="height: 100vh;">
-    <form action="" class="border p-4 rounded shadow" style="width: 400px;">
+    <form action="{{ route('login') }}" method="POST" class="border p-4 rounded shadow" style="width: 400px;">
+        @csrf
         <h1 class="mb-4 text-center">Login</h1>
         <div class="mb-3">
-            <label for="exampleFormControlInput1" class="form-label">Email address</label>
-            <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="Masukkan email address" required>
+            <label for="email" class="form-label">Email address</label>
+            <input type="email" name="email" class="form-control" id="email" placeholder="Masukkan email address" required>
         </div>
         <div class="mb-3">
-            <label for="inputPassword5" class="form-label">Password</label>
-            <input type="password" id="inputPassword5" class="form-control" aria-describedby="passwordHelpBlock" placeholder="Masukkan password" required>
+            <label for="password" class="form-label">Password</label>
+            <input type="password" name="password" id="password" class="form-control" placeholder="Masukkan password" required>
         </div>
         <div class="d-flex justify-content-center">
             <button type="submit" class="btn btn-primary w-100" style="max-width: 200px;">Login</button>

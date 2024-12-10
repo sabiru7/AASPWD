@@ -26,8 +26,8 @@
                     <td>${{ number_format($menu->price, 2) }}</td>
                     <td>
                         @if($menu->image)
-                            <img src="{{ asset('menus.create' . $menu->image) }}" alt="{{ $menu->name }}" width="100">
-                        @endif
+                        <img src="{{ asset('' . $menu->image) }}" alt="{{ $menu->name }}" width="100">
+                    @endif
                     </td>
                     <td>
                         <a href="{{ route('menus.edit', $menu) }}" class="btn btn-warning">Edit</a>

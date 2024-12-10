@@ -22,7 +22,8 @@ Route::resource('menus', MenuController::class);
         Route::get('/register', function () {
             return view('auth.register');
         });
-        
 
-        Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
-        Route::post('/login', [LoginController::class, 'login']);
+        Route::post('/login', [LoginController::class, 'login'])->name('login');
+        Route::get('/home', function () {
+            return view('home'); 
+        })->middleware('auth');
