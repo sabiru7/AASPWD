@@ -8,7 +8,7 @@ class CreateMenusTable extends Migration
 {
     public function up()
     {
-        Schema::create('menus', function (Blueprint $table) {
+        Schema::create('menus_item', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->text('description')->nullable();
@@ -20,6 +20,6 @@ class CreateMenusTable extends Migration
 
     public function down()
     {
-        Schema::dropIfExists('menus');
+        Schema::dropIfExists('menus_item');
     }
 }

@@ -25,8 +25,10 @@
                     <td>{{ $menu->description }}</td>
                     <td>${{ number_format($menu->price, 2) }}</td>
                     <td>
-                        @if($menu->image)
-                        <img src="{{ asset('' . $menu->image) }}" alt="{{ $menu->name }}" width="100">
+                        @if ($menu->image)
+                        <img src="{{ asset('storage/' . $menu->image) }}" alt="{{ $menu->name }}" style="width: 50px; height: auto;">
+                    @else
+                        <p>No image available</p>
                     @endif
                     </td>
                     <td>
