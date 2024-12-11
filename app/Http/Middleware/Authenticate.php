@@ -12,7 +12,17 @@ class Authenticate extends Middleware
      */
     protected function redirectTo(Request $request): ?string
     {
-        return $request->expectsJson() ? null : route('login');
+        // Jika permintaan mengharapkan JSON, tidak ada pengalihan
+        if ($request->expectsJson()) {
+            return null;
+        }
+
+        // Cek apakah pengguna mencoba mengakses route pendaftaran
+        if ($request->is('register')) {
+            return route('login'); // Arahkan ke login jika mencoba mengakses register
+        }
+
+        // Arahkan ke halaman login untuk route lainnya
+        return route('login');
     }
-    
 }

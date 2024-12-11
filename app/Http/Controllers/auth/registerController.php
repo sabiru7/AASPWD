@@ -3,43 +3,33 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\RegisterRequest;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Auth\Events\Registered;
 
-class RegisterController extends Controller
+class registerController extends Controller
 {
+   
     public function showRegistrationForm()
     {
         return view('auth.register'); 
     }    
-    // Menangani pendaftaran pengguna
-    public function register(Request $request)
+
+    
+    public function register(RegisterRequest $request)
     {
-        // Validasi input
-        $this->validator($request->all())->validate();
+        $user = $this->create($request->validated());
 
-        // Buat pengguna baru
-        $user = $this->create($request->all());
+        event(new Registered($user));
 
-        // Login pengguna setelah pendaftaran
-        auth()->login($user);
+        Session::flash('success', 'Pendaftaran berhasil! Silakan cek email Anda untuk verifikasi.');
 
-        // Redirect ke halaman yang diinginkan
-        return redirect()->route('home'); // Ganti dengan route yang sesuai
+        return redirect()->route('login'); 
     }
 
-    protected function validator(array $data)
-    {
-        return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'], 
-        ]);
-    }
-
-    // Membuat pengguna baru
     protected function create(array $data)
     {
         return User::create([
