@@ -1,24 +1,51 @@
 @extends('layouts.app')
 
-@section('title', 'Login')
-
 @section('content')
-<div class="container d-flex justify-content-center align-items-center" style="height: 100vh;">
-    <form action="{{ route('login') }}" method="POST" class="border p-4 rounded shadow" style="width: 400px;">
-        @csrf
-        <h1 class="mb-4 text-center">Login</h1>
-        <div class="mb-3">
-            <label for="email" class="form-label">Email address</label>
-            <input type="email" name="email" class="form-control" id="email" placeholder="Masukkan email address" required>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card shadow-lg" style="border-radius: 15px;">
+                    <div class="card-header text-center" style="background-color: #007bff; color: white; border-radius: 15px 15px 0 0;">
+                        <h4>{{ __('Login') }}</h4>
+                    </div>
+
+                    <div class="card-body">
+                        <form method="POST" action="{{ route('login') }}">
+                            @csrf
+
+                            <div class="form-group">
+                                <label for="email">{{ __('E-Mail Address') }}</label>
+                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+                                @error('email')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+
+                            <div class="form-group">
+                                <label for="password">{{ __('Password') }}</label>
+                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
+                                @error('password')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                            <Br>
+                            <div class="form-group mb-0">
+                                <div class="text-center">
+                                    <button type="submit" class="btn btn-primary" style="border-radius: 20px; padding: 10px 20px;">
+                                        {{ __('Login') }}
+                                    </button>
+                                    <p class="mt-3 text-center">belum daftar akun, buat akun disini ya<a href="{{ url('register') }}"><br>membuat akun</a></p>
+
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="mb-3">
-            <label for="password" class="form-label">Password</label>
-            <input type="password" name="password" id="password" class="form-control" placeholder="Masukkan password" required>
-        </div>
-        <div class="d-flex justify-content-center">
-            <button type="submit" class="btn btn-primary w-100" style="max-width: 200px;">Login</button>
-        </div>
-        <p class="mt-3 text-center">Jika belum memiliki akun, silahkan <a href="{{ url('/register') }}">membuat akun</a></p>
-    </form>
-</div>
+    </div>
 @endsection
