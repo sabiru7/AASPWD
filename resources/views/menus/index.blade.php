@@ -16,7 +16,7 @@
                 <th>Deskripsi</th>
                 <th>Harga</th>
                 <th>Kategori</th>
-                <th>Aksi</th>
+                <th>Melakukan</th>
             </tr>
         </thead>
         <tbody>

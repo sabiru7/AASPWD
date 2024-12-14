@@ -22,7 +22,7 @@
         <div class="mb-3">
             <label for="category" class="form-label">Kategori</label>
             <select class="form-select" id="category" name="category_id" required>
-                <option value="" disabled>Pilih Kategori</option>
+                <option value="" disabled selected>Pilih Kategori</option>
                 @foreach($categories as $category)
                     <option value="{{ $category->id }}" {{ $menu->category_id == $category->id ? 'selected' : '' }}>
                         {{ $category->name }}
