@@ -25,8 +25,6 @@
                     <label for="category" class="form-label">Kategori</label>
                     <select class="form-select" id="category" name="category_id" required>
                         <option value="" disabled selected>Pilih Kategori</option>
-                        <option value="1">Makanan</option> 
-                        <option value="2">Minuman</option>
                         @foreach($categories as $category)
                             <option value="{{ $category->id }}">{{ $category->name }}</option>
                         @endforeach
