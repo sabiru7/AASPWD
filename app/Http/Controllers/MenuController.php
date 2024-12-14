@@ -3,88 +3,67 @@
 namespace App\Http\Controllers;
 
 use App\Models\Menu;
+use App\Models\Category;
 use Illuminate\Http\Request;
 
 class MenuController extends Controller
 {
     public function index()
     {
-        $menus = Menu::all();
+        $menus = Menu::with('category')->paginate(10);
         return view('menus.index', compact('menus'));
     }
 
     public function create()
     {
-        return view('menus.create');
+        // Mengambil kategori Makanan dan Minuman
+        $categories = Category::whereIn('name', ['Makanan', 'Minuman'])->get();
+        return view('menus.create', compact('categories'));
     }
 
     public function store(Request $request)
     {
+        // Validasi input
         $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
             'price' => 'required|numeric',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'category_id' => 'required|exists:categories,id',
         ]);
 
-        $menu = new Menu();
-        $menu->name = $request->name;
-        $menu->description = $request->description;
-        $menu->price = $request->price;
+        // Simpan menu ke database
+        Menu::create($request->all());
 
-        // Menyimpan gambar jika ada
-        if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('images', 'public');
-            $menu->image = $imagePath;
-        }
-
-        $menu->save();
-
+        // Redirect dengan pesan sukses
         return redirect()->route('menus.index')->with('success', 'Menu berhasil ditambahkan.');
     }
 
-    // Menampilkan detail menu
-    public function show($id)
+    public function edit(Menu $menu)
     {
-        $menu = Menu::findOrFail($id);
-        return view('menus.show', compact('menu'));
+        $categories = Category::whereIn('name', ['Makanan', 'Minuman'])->get();
+        return view('menus.edit', compact('menu', 'categories'));
     }
 
-    public function edit($id)
+    public function update(Request $request, Menu $menu)
     {
-        $menu = Menu::findOrFail($id);
-        return view('menus.edit', compact('menu'));
-    }
-
-    public function update(Request $request, $id)
-    {
+        // Validasi input
         $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
             'price' => 'required|numeric',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'category_id' => 'required|exists:categories,id',
         ]);
 
-        $menu = Menu::findOrFail($id);
-        $menu->name = $request->name;
-        $menu->description = $request->description;
-        $menu->price = $request->price;
+        // Update menu di database
+        $menu->update($request->all());
 
-        if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('images', 'public');
-            $menu->image = $imagePath;
-        }
-
-        $menu->save();
-
+        // Redirect dengan pesan sukses
         return redirect()->route('menus.index')->with('success', 'Menu berhasil diperbarui.');
     }
 
-    public function destroy($id)
+    public function destroy(Menu $menu)
     {
-        $menu = Menu::findOrFail($id);
         $menu->delete();
-
         return redirect()->route('menus.index')->with('success', 'Menu berhasil dihapus.');
     }
 }

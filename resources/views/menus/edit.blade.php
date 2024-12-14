@@ -20,11 +20,15 @@
             <input type="number" class="form-control" id="price" name="price" value="{{ $menu->price }}" step="0.01" required>
         </div>
         <div class="mb-3">
-            <label for="image" class="form-label">Image</label>
-            <input type="file" class="form-control" id="image" name=" image">
-            @if($menu->image)
-                <img src="{{ asset('storage/' . $menu->image) }}" alt="{{ $menu->name }}" width="100" class="mt-2">
-            @endif
+            <label for="category" class="form-label">Kategori</label>
+            <select class="form-select" id="category" name="category_id" required>
+                <option value="" disabled>Pilih Kategori</option>
+                @foreach($categories as $category)
+                    <option value="{{ $category->id }}" {{ $menu->category_id == $category->id ? 'selected' : '' }}>
+                        {{ $category->name }}
+                    </option>
+                @endforeach
+            </select>
         </div>
         <button type="submit" class="btn btn-primary">Update</button>
     </form>

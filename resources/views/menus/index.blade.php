@@ -1,46 +1,43 @@
 @extends('layouts.app')
 
-@section('title', 'Menu List')
+@section('title', 'Daftar Menu')
 
 @section('content')
-    <h1>Menu List</h1>
-    <a href="{{ route('menus.create') }}" class="btn btn-primary">Add Menu</a>
-    @if(session('success'))
+<div class="container">
+    <h1>Daftar Menu</h1>
+    <a href="{{ route('menus.create') }}" class="btn btn-success">Tambah Menu</a>
+    @if (session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>
     @endif
     <table class="table">
         <thead>
             <tr>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Price</th>
-                <th>Image</th>
-                <th>Actions</th>
+                <th>Nama</th>
+                <th>Deskripsi</th>
+                <th>Harga</th>
+                <th>Kategori</th>
+                <th>Aksi</th>
             </tr>
         </thead>
         <tbody>
-            @foreach($menus as $menu)
+            @foreach ($menus as $menu)
                 <tr>
                     <td>{{ $menu->name }}</td>
                     <td>{{ $menu->description }}</td>
-                    <td>${{ number_format($menu->price, 2) }}</td>
-                    <td>
-                        @if ($menu->image)
-                        <img src="{{ asset('storage/' . $menu->image) }}" alt="{{ $menu->name }}" style="width: 50px; height: auto;">
-                    @else
-                        <p>No image available</p>
-                    @endif
-                    </td>
+                    <td>{{ $menu->price }}</td>
+                    <td>{{ $menu->category->name }}</td>
                     <td>
                         <a href="{{ route('menus.edit', $menu) }}" class="btn btn-warning">Edit</a>
                         <form action="{{ route('menus.destroy', $menu) }}" method="POST" style="display:inline;">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn btn-danger">Delete</button>
+                            <button type="submit" class="btn btn-danger">Hapus</button>
                         </form>
                     </td>
                 </tr>
             @endforeach
         </tbody>
     </table>
+    {{ $menus->links() }}
+</div>
 @endsection

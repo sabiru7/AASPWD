@@ -22,8 +22,15 @@
                     <input type="number" class="form-control" id="price" name="price" step="0.01" required>
                 </div>
                 <div class="mb-3">
-                    <label for="image" class="form-label">Image</label>
-                    <input type="file" class="form-control" id="image" name="image">
+                    <label for="category" class="form-label">Kategori</label>
+                    <select class="form-select" id="category" name="category_id" required>
+                        <option value="" disabled selected>Pilih Kategori</option>
+                        <option value="1">Makanan</option> 
+                        <option value="2">Minuman</option>
+                        @foreach($categories as $category)
+                            <option value="{{ $category->id }}">{{ $category->name }}</option>
+                        @endforeach
+                    </select>
                 </div>
                 <div class="text-center">
                     <button type="submit" class="btn btn-primary btn-lg">Save</button>

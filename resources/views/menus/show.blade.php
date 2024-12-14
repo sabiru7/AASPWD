@@ -6,9 +6,8 @@
     <h1>{{ $menu->name }}</h1>
     <p><strong>Description:</strong> {{ $menu->description }}</p>
     <p><strong>Price:</strong> ${{ number_format($menu->price, 2) }}</p>
-    @if($menu->image)
-        <img src="{{ asset('storage/' . $menu->image) }}" alt="{{ $menu->name }}" width="200">
-    @endif
+    <p><strong>Category:</strong> {{ $menu->category->name }}</p> 
+
     <div class="mt-3">
         <a href="{{ route('menus.index') }}" class="btn btn-secondary">Back to Menu List</a>
         <a href="{{ route('menus.edit', $menu) }}" class="btn btn-warning">Edit</a>
